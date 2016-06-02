@@ -1,0 +1,20 @@
+{
+	"name": "imvkmark/l5-upload-client",
+	"description": "upload client for sour lemon upload system",
+	"authors": [
+		{
+			"name": "Mark Zhao",
+			"email": "zhaody901@126.com"
+		}
+	],
+	"require": {
+		"php": ">=5.4.0",
+		"php-curl-class/php-curl-class": "~4.8"
+	},
+	"autoload": {
+		"psr-4": {
+			"Imvkmark\\L5UploadClient\\": "src/L5UploadClient"
+		}
+	},
+	"minimum-stability": "dev"
+}
