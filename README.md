@@ -1,7 +1,7 @@
 ### 加载本扩展
 在 `config/app.php` 的 `providers` 部分加入
 ```
-Imvkmark\L5UploadClient\Helper\L5UploadClient::class
+Imvkmark\L5UploadClient\L5UploadClientServiceProvider::class
 ```
 
 ### 生成配置

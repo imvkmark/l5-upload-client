@@ -24,7 +24,14 @@ class L5UploadClientServiceProvider extends ServiceProvider {
 	public function register() {
 		// 配置文件合并
 		$this->mergeConfigFrom(__DIR__ . '/../config/upload-client.php', 'l5-upload-client');
-
+		
 	}
 
+	/**
+	 * Get the services provided by the provider.
+	 * @return array
+	 */
+	public function provides() {
+		return [];
+	}
 }
