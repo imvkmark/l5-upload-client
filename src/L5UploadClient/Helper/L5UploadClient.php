@@ -44,7 +44,7 @@ class L5UploadClient {
 					'expire_timestamp' => $timestamp + $expired * 60,
 				], config('l5-upload-client.expires'));
 			} else {
-				throw new \Exception($upload['message']);
+				throw new \Exception($upload['msg']);
 			}
 		}
 		return $uploadToken;
