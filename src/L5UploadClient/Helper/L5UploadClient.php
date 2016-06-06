@@ -11,6 +11,9 @@ class L5UploadClient {
 	 * @throws \Exception
 	 */
 	public static function getUploadToken() {
+		if (!config('l5-upload-client.enable')) {
+			return '';
+		}
 		$timestamp = isset($_SERVER['REQUEST_TIME']) ? $_SERVER['REQUEST_TIME'] : 0;
 		$version   = config('l5-upload-client.version', '1.0');
 		$param     = [
@@ -33,19 +36,25 @@ class L5UploadClient {
 			}
 		}
 		if (!$uploadToken) {
-			$curl   = new Curl();
-			$upload = $curl->get(config('l5-upload-client.token_url'), $param);
-			$upload = json_decode(json_encode($upload), true);
-			if ($upload['status'] == 'success') {
-				$uploadToken = $upload['data']['upload_token'];
-				$expired     = (int) config('l5-upload-client.expires');
-				\Cache::add($cacheKey, [
-					'token'            => $uploadToken,
-					'expire_timestamp' => $timestamp + $expired * 60,
-				], config('l5-upload-client.expires'));
+
+			if (!config('l5-upload-client.token_url')) {
+				throw new \Exception('Please set lemon picture server token url');
 			} else {
-				throw new \Exception($upload['msg']);
+				$curl   = new Curl();
+				$upload = $curl->get(config('l5-upload-client.token_url'), $param);
+				$upload = json_decode(json_encode($upload), true);
+				if ($upload['status'] == 'success') {
+					$uploadToken = $upload['data']['upload_token'];
+					$expired     = (int) config('l5-upload-client.expires');
+					\Cache::add($cacheKey, [
+						'token'            => $uploadToken,
+						'expire_timestamp' => $timestamp + $expired * 60,
+					], config('l5-upload-client.expires'));
+				} else {
+					throw new \Exception($upload['msg']);
+				}
 			}
+
 		}
 		return $uploadToken;
 
@@ -70,7 +79,6 @@ class L5UploadClient {
 	/**
 	 * 计算请求签名
 	 * @param $timestamp
-	 * @param $version
 	 * @return string
 	 */
 	private static function calcSign($timestamp) {
