@@ -13,6 +13,7 @@ php artisan vendor:publish --tag=sour-lemon
 
 - 获取的配置项目填写到 `l5-upload-client.php`
 ```
+enable        是否启用上传
 app_key       上传 public key
 app_secret    上传 public secret
 expires       过期时间 / 分钟
